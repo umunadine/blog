@@ -1,4 +1,15 @@
 {% extends "layout.html" %}
 {% block content %}
-    <h1>Random quote Page</h1>
+<div class="one">
+    <h1>Quotes</h1>
+    </div>
+{% for quotes_item in all_quotes  %}
+<div>
+    <li>
+    {{quotes_item.quotes_quote}}<hr>
+   Written by {{quotes_item.quotes_author}}<br>
+    <button ><a href="{{quotes_item.quotes_url}}">View Quote</a></button>
+</li>
+</div>
+{%endfor%}
 {% endblock content %}

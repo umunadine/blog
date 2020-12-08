@@ -4,9 +4,9 @@ from PIL import Image
 from flask import render_template, url_for,flash, redirect, request, abort
 from app import app, db, bcrypt
 from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
-from app.models import User, Post
+from app.models import User, Post, Quotes
 from flask_login import login_user,current_user,logout_user,login_required
-
+from .request import my_quotes
 
 @app.route('/')
 @app.route('/about')
@@ -20,7 +20,9 @@ def home():
 
 @app.route('/quote')
 def quote():
-    return render_template('quote.html')
+    all_quotes = my_quotes()
+    print(all_quotes)
+    return render_template('quote.html',all_quotes =all_quotes)
 
 @app.route("/register", methods=['GET', 'POST'])
 def register():

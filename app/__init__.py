@@ -2,8 +2,10 @@ from flask import Flask
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
+from .config import DevConfig
 
-app = Flask(__name__)
+app = Flask(__name__, instance_relative_config = True)
+app.config.from_object(DevConfig)
 
 
 app.config['SECRET_KEY'] = 'a74aba664f8b43bc68daa3d694ecf909'
