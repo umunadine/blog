@@ -4,23 +4,27 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <link rel= "https://fonts.googleapis.com/css2?family=Lobster+Two:wght@400;700&family=Ubuntu:wght@300;400;500;700&display=swap">
     <style>
  body {
-    background: #fafafa;
+    background:	rgb(228, 224, 224);
     color: #333333;
     margin-top: 5rem;
+    font-family: 'Ubuntu', sans-serif;
   }
   
   h1, h2, h3, h4, h5, h6 {
-    color: #444444;
+    font-family: 'Lobster Two', cursive;
+    font-weight: 400;
+    color: black;
   }
   
   .bg-steel {
-    background-color: #2F4F4F;
+    background-color: gray;
   }
   
   .site-header .navbar-nav .nav-link {
-    color: #cbd5db;
+    color: lightpink;
   }
   
   .site-header .navbar-nav .nav-link:hover {
@@ -34,8 +38,7 @@
   .content-section {
     background: #ffffff;
     padding: 10px 20px;
-    border: 1px solid #dddddd;
-    border-radius: 3px;
+    border-radius: 5px;
     margin-bottom: 20px;
   }
   
@@ -98,9 +101,8 @@
           </button>
           <div class="collapse navbar-collapse" id="navbarToggle">
             <div class="navbar-nav mr-auto">
-              <a class="nav-item nav-link" href="/">About</a>
               <a class="nav-item nav-link" href="{{ url_for('home') }}">Home</a>
-              <a class="nav-item nav-link" href="/quote">Quotes</a>
+              <a class="nav-item nav-link" href="{{ url_for('quote') }}">Quotes</a>
             </div>
             <div class="navbar-nav">
               {% if current_user.is_authenticated %}
@@ -108,8 +110,7 @@
                 <a class="nav-item nav-link" href="{{ url_for('account') }}">My Account</a>
                 <a class="nav-item nav-link" href="{{ url_for('logout') }}">Logout</a>
               {% else %}
-              <a class="nav-item nav-link" href="/login">Login</a>
-              <a class="nav-item nav-link" href="/register">Sign Up</a>
+              <a class="nav-item nav-link" href="/login">Create a Post</a>
               {% endif %}
             </div>
           </div>

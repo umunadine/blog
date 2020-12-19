@@ -27,5 +27,5 @@ class DevConfig(Config):
     Args:
         Config: The parent configuration class with General configuration settings
     '''
-
+    QUOTES_API_BASE_URL ='http://quotes.stormconsultancy.co.uk/random.json'
     DEBUG = True

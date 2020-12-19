@@ -4,7 +4,7 @@ from flask_bcrypt import Bcrypt
 from flask_login import LoginManager
 from .config import DevConfig
 
-app = Flask(__name__, instance_relative_config = True)
+app = Flask(__name__)
 app.config.from_object(DevConfig)
 
 

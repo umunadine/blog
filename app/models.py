@@ -27,13 +27,32 @@ class Post(db.Model):
     def __repr__(self):
         return f"Post('{self.title}', '{self.date_posted}')"
 
-class Quotes:
+class Quote:
     '''
-    Quotes class to define News Objects
+    Quotes class to define Quotes Objects
     '''
 
-    def __init__(self,author,quote,permalink):
-        self.author =author
+    def __init__(self,id,author,quote,permalink):
+        self.id = id
+        self.author = author
         self.quote = quote
         self.permalink= permalink
-        
+
+class Comment(db.Model):
+    comment = db.Column(db.Text, nullable=False)
+    id = db.Column(db.Integer, primary_key=True)
+    post_id = db.Column(db.Integer, db.ForeignKey('post.id'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
+
+    def save_comment(self):
+        db.session.add(self)
+        db.session.commit()
+
+    @classmethod
+    def get_comment(cls,id):
+        comments = Comment.query.filter_by(post_id=id).all()
+        return comments
+
+    def __repr__(self):
+        return f"Comment('{self.comment}')"
+

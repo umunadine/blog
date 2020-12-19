@@ -3,10 +3,13 @@ import secrets
 from PIL import Image
 from flask import render_template, url_for,flash, redirect, request, abort
 from app import app, db, bcrypt
-from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm
-from app.models import User, Post, Quotes
+from app.forms import RegistrationForm, LoginForm, UpdateAccountForm, PostForm,PostComment
+from app.models import User, Post, Quote,Comment
 from flask_login import login_user,current_user,logout_user,login_required
 from .request import my_quotes
+
+
+
 
 @app.route('/')
 @app.route('/about')
@@ -15,15 +18,12 @@ def about():
 
 @app.route('/home')
 def home():
-    posts = Post.query.all()
+    page = request.args.get('page', 1, type=int)
+    posts = Post.query.order_by(Post.date_posted.desc()).paginate(page=page, per_page=2)
+    
     return render_template('home.html',posts=posts)
 
-@app.route('/quote')
-def quote():
-    all_quotes = my_quotes()
-    print(all_quotes)
-    return render_template('quote.html',all_quotes =all_quotes)
-
+    
 @app.route("/register", methods=['GET', 'POST'])
 def register():
     if current_user.is_authenticated:
@@ -108,7 +108,8 @@ def new_post():
 @app.route("/post/<int:post_id>")
 def post(post_id):
     post = Post.query.get_or_404(post_id)
-    return render_template('post.html', title=post.title, post=post)
+    comments = Comment.query.filter_by(post_id = post_id).all()
+    return render_template('post.html', title=post.title, post=post,comments=comments)
 
 
 @app.route("/post/<int:post_id>/update", methods=['GET', 'POST'])
@@ -140,3 +141,27 @@ def delete_post(post_id):
     db.session.commit()
     flash('Post successfully deleted!', 'success')
     return redirect(url_for('home'))
+
+@app.route("/post/<int:post_id>/comment", methods=['GET', 'POST'])
+@login_required
+def new_comment(post_id):
+    post = Post.query.get_or_404(post_id)
+    form = PostComment()
+    all_comments=Comment.query.filter_by(post_id=post_id).all()
+    if form.validate_on_submit():
+        comment = form.comment.data
+        post_id = post_id
+        user_id=current_user._get_current_object().id
+        new_comment=Comment(comment=comment,user_id=user_id,post_id=post_id)
+        new_comment.save_comment()
+      
+        flash('Comment created successfully', 'success')
+        return redirect(url_for('post', post_id=post.id))
+    return render_template('comments.html', title='Comment', form=form, legend='Comment')
+
+
+@app.route('/quote',methods=['GET'])
+def quote():
+    quotes = my_quotes()
+    print(quotes)
+    return render_template('quote.html',title=' Random Quote',data=quotes)  

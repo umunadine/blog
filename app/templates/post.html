@@ -15,9 +15,27 @@
       </div>
       <h2 class="article-title">{{ post.title }}</h2>
       <p class="article-content">{{ post.content }}</p>
+      <a class="ratings" href="{{ url_for('new_comment', post_id=post.id) }}"> Leave a comment</a>
     </div>
   </article>
+  <div class="content-section">
+    <div class="mt-4 mb-4">
+            <h2 style="text-align: center;">Comments</h2>
+            <hr>
+            {% if comments %}
+            {% for comment in comments %}
+            <ul>
+                <h6> {{ comment.comment }} </h6>
+                <small class="text-muted">{{ post.date_posted.strftime('%Y-%m-%d') }}</small><hr>
 
+            </ul>
+        
+        {% endfor %} 
+        {% else %}
+            <p>No comments</p>
+        {% endif %}
+        </div>
+</div>
   <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="deleteModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
       <div class="modal-content">
