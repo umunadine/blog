@@ -1,11 +1,12 @@
 import unittest
-from models import User,Quotes
+from app.models import User
+from app import db
 
 
 class UserModelTest(unittest.TestCase):
 
     def setUp(self):
-        self.new_user = User(password = 'testing')
+        self.new_user = User(password = 'password')
 
     def test_password_setter(self):
         self.assertTrue(self.new_user.pass_secure is not None)
@@ -15,5 +16,5 @@ class UserModelTest(unittest.TestCase):
                 self.new_user.password
 
     def test_password_verification(self):
-        self.assertTrue(self.new_user.verify_password('testing'))
+        self.assertTrue(self.new_user.verify_password('password'))
 
